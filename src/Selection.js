@@ -1,14 +1,10 @@
-import { off, on } from 'dom-helpers'
+import listen from 'dom-helpers/listen'
 import closest from 'dom-helpers/closest'
 import contains from 'dom-helpers/contains'
 
 function addEventListener(type, handler, target = document) {
-  on(target, type, handler)
-  return {
-    remove() {
-      off(target, type, handler)
-    },
-  }
+  const remove = listen(target, type, handler)
+  return { remove }
 }
 
 function isOverContainer(container, x, y) {

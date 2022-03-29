@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import uncontrollable from 'uncontrollable'
+import { uncontrollable } from 'uncontrollable'
 import cn from 'classnames'
 import {
   accessor,
@@ -740,7 +740,7 @@ class Calendar extends React.Component {
     return views[this.props.view]
   }
 
-  getDrilldownView = date => {
+  getDrilldownView = (date) => {
     const { view, drilldownView, getDrilldownView } = this.props
 
     if (!getDrilldownView) return drilldownView
@@ -855,7 +855,7 @@ class Calendar extends React.Component {
     this.handleRangeChange(date, ViewComponent)
   }
 
-  handleViewChange = view => {
+  handleViewChange = (view) => {
     if (view !== this.props.view && isValidView(view, this.props)) {
       this.props.onView(view)
     }
@@ -872,7 +872,7 @@ class Calendar extends React.Component {
     notify(this.props.onDoubleClickEvent, args)
   }
 
-  handleSelectSlot = slotInfo => {
+  handleSelectSlot = (slotInfo) => {
     notify(this.props.onSelectSlot, slotInfo)
   }
 
