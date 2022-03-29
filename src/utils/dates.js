@@ -1,5 +1,5 @@
 /* eslint no-fallthrough: off */
-import dateMath from 'date-arithmetic'
+import * as dateMath from 'date-arithmetic'
 import localizer from '../localizer'
 
 const MILLI = {
@@ -17,7 +17,7 @@ let dates = {
   monthsInYear(year) {
     let date = new Date(year, 0, 1)
 
-    return MONTHS.map(i => dates.month(date, i))
+    return MONTHS.map((i) => dates.month(date, i))
   },
 
   firstVisibleDay(date, culture) {
