@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import classes from 'dom-helpers/class'
-import getWidth from 'dom-helpers/query/width'
-import scrollbarSize from 'dom-helpers/util/scrollbarSize'
+import addClass from 'dom-helpers/addClass'
+import removeClass from 'dom-helpers/removeClass'
+import getWidth from 'dom-helpers/width'
+import scrollbarSize from 'dom-helpers/scrollbarSize'
 
 import localizer from './localizer'
 import message from './utils/messages'
@@ -57,7 +58,7 @@ class Agenda extends React.Component {
 
     let range = dates.range(date, end, 'day')
 
-    events = events.filter(event => inRange(event, date, end, this.props))
+    events = events.filter((event) => inRange(event, date, end, this.props))
 
     events.sort((a, b) => +get(a, startAccessor) - +get(b, startAccessor))
 
@@ -102,7 +103,7 @@ class Agenda extends React.Component {
     let EventComponent = components.event
     let DateComponent = components.date
 
-    events = events.filter(e =>
+    events = events.filter((e) =>
       inRange(e, dates.startOf(day, 'day'), dates.endOf(day, 'day'), this.props)
     )
 
@@ -216,10 +217,10 @@ class Agenda extends React.Component {
     }
 
     if (isOverflowing) {
-      classes.addClass(header, 'rbc-header-overflowing')
+      addClass(header, 'rbc-header-overflowing')
       header.style.marginRight = scrollbarSize() + 'px'
     } else {
-      classes.removeClass(header, 'rbc-header-overflowing')
+      removeClass(header, 'rbc-header-overflowing')
     }
   }
 }

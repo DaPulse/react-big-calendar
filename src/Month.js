@@ -9,7 +9,7 @@ import chunk from 'lodash/chunk'
 
 import { navigate, views } from './utils/constants'
 import { notify } from './utils/helpers'
-import getPosition from 'dom-helpers/query/position'
+import getPosition from 'dom-helpers/position'
 import raf from 'dom-helpers/util/requestAnimationFrame'
 
 import Popup from './Popup'
@@ -22,7 +22,7 @@ import { accessor, dateFormat } from './utils/propTypes'
 import { inRange, sortEvents } from './utils/eventLevels'
 
 let eventsForWeek = (evts, start, end, props) =>
-  evts.filter(e => inRange(e, start, end, props))
+  evts.filter((e) => inRange(e, start, end, props))
 
 let propTypes = {
   events: PropTypes.array.isRequired,
@@ -235,7 +235,7 @@ class MonthView extends React.Component {
           date={date}
           drilldownView={drilldownView}
           isOffRange={isOffRange}
-          onDrillDown={e => this.handleHeadingClick(date, drilldownView, e)}
+          onDrillDown={(e) => this.handleHeadingClick(date, drilldownView, e)}
         />
       </div>
     )

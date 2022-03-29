@@ -1,5 +1,5 @@
-import contains from 'dom-helpers/query/contains'
-import closest from 'dom-helpers/query/closest'
+import contains from 'dom-helpers/contains'
+import closest from 'dom-helpers/closest'
 import events from 'dom-helpers/events'
 
 function addEventListener(type, handler, target = document) {
@@ -79,7 +79,7 @@ class Selection {
   emit(type, ...args) {
     let result
     let handlers = this._listeners[type] || []
-    handlers.forEach(fn => {
+    handlers.forEach((fn) => {
       if (result === undefined) result = fn(...args)
     })
     return result
@@ -118,7 +118,7 @@ class Selection {
     let timer = null
     let touchMoveListener = null
     let touchEndListener = null
-    const handleTouchStart = initialEvent => {
+    const handleTouchStart = (initialEvent) => {
       timer = setTimeout(() => {
         cleanup()
         handler(initialEvent)
@@ -158,7 +158,7 @@ class Selection {
   // Listen for mousedown and touchstart events. When one is received, disable the other and setup
   // future event handling based on the type of event.
   _addInitialEventListener() {
-    const mouseDownListener = addEventListener('mousedown', e => {
+    const mouseDownListener = addEventListener('mousedown', (e) => {
       this._onInitialEventListener.remove()
       this._handleInitialEvent(e)
       this._onInitialEventListener = addEventListener(
@@ -166,7 +166,7 @@ class Selection {
         this._handleInitialEvent
       )
     })
-    const touchStartListener = addEventListener('touchstart', e => {
+    const touchStartListener = addEventListener('touchstart', (e) => {
       this._onInitialEventListener.remove()
       this._onInitialEventListener = this._addLongPressListener(
         this._handleInitialEvent,
@@ -355,8 +355,8 @@ class Selection {
     let { x, y, isTouch } = this._initialEventData
     return (
       !isTouch &&
-      (Math.abs(pageX - x) <= clickTolerance &&
-        Math.abs(pageY - y) <= clickTolerance)
+      Math.abs(pageX - x) <= clickTolerance &&
+      Math.abs(pageY - y) <= clickTolerance
     )
   }
 }
@@ -398,15 +398,17 @@ export function objectsCollide(nodeA, nodeB, tolerance = 0) {
     bottom: bBottom = bTop,
   } = getBoundsForNode(nodeB)
 
-  return !// 'a' bottom doesn't touch 'b' top
-  (
-    aBottom - tolerance < bTop ||
-    // 'a' top doesn't touch 'b' bottom
-    aTop + tolerance > bBottom ||
-    // 'a' right doesn't touch 'b' left
-    aRight - tolerance < bLeft ||
-    // 'a' left doesn't touch 'b' right
-    aLeft + tolerance > bRight
+  return !(
+    // 'a' bottom doesn't touch 'b' top
+    (
+      aBottom - tolerance < bTop ||
+      // 'a' top doesn't touch 'b' bottom
+      aTop + tolerance > bBottom ||
+      // 'a' right doesn't touch 'b' left
+      aRight - tolerance < bLeft ||
+      // 'a' left doesn't touch 'b' right
+      aLeft + tolerance > bRight
+    )
   )
 }
 

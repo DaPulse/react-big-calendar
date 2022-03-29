@@ -8,7 +8,7 @@ import dates from './utils/dates'
 import DayColumn from './DayColumn'
 import TimeGutter from './TimeGutter'
 
-import getWidth from 'dom-helpers/query/width'
+import getWidth from 'dom-helpers/width'
 import TimeGridHeader from './TimeGridHeader'
 import { accessor, dateFormat } from './utils/propTypes'
 import { notify } from './utils/helpers'
@@ -129,7 +129,7 @@ export default class TimeGrid extends Component {
     }
   }
 
-  gutterRef = ref => {
+  gutterRef = (ref) => {
     this.gutter = ref && findDOMNode(ref)
   }
 
@@ -161,7 +161,7 @@ export default class TimeGrid extends Component {
     } = this.props
 
     return range.map((date, idx) => {
-      let daysEvents = events.filter(event =>
+      let daysEvents = events.filter((event) =>
         dates.inRange(
           date,
           get(event, startAccessor),
@@ -174,7 +174,7 @@ export default class TimeGrid extends Component {
         let eventsToDisplay = !resource
           ? daysEvents
           : daysEvents.filter(
-              event =>
+              (event) =>
                 get(event, resourceAccessor) ===
                 get(resource, resourceIdAccessor)
             )
@@ -225,7 +225,7 @@ export default class TimeGrid extends Component {
     let allDayEvents = [],
       rangeEvents = []
 
-    events.forEach(event => {
+    events.forEach((event) => {
       if (inRange(event, start, end, this.props)) {
         let eStart = get(event, startAccessor),
           eEnd = get(event, endAccessor)
@@ -356,7 +356,8 @@ export default class TimeGrid extends Component {
       const dayPixelWidth =
         (content.offsetWidth - timeGutter.offsetWidth) / this.slots
       const dayOffset =
-        range.findIndex(d => dates.eq(d, dates.today(), 'day')) * dayPixelWidth
+        range.findIndex((d) => dates.eq(d, dates.today(), 'day')) *
+        dayPixelWidth
       const offset = Math.floor(factor * pixelHeight)
 
       timeIndicator.style.display = dayOffset >= 0 ? 'block' : 'none'

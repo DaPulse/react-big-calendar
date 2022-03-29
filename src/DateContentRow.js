@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import getHeight from 'dom-helpers/query/height'
-import qsa from 'dom-helpers/query/querySelectorAll'
+import getHeight from 'dom-helpers/height'
+import qsa from 'dom-helpers/querySelectorAll'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
@@ -51,13 +51,13 @@ const defaultProps = {
 }
 
 class DateContentRow extends React.Component {
-  handleSelectSlot = slot => {
+  handleSelectSlot = (slot) => {
     const { range, onSelectSlot } = this.props
 
     onSelectSlot(range.slice(slot.start, slot.end + 1), slot)
   }
 
-  handleShowMore = slot => {
+  handleShowMore = (slot) => {
     const { range, onShowMore } = this.props
     let row = qsa(findDOMNode(this), '.rbc-row-bg')[0]
 
@@ -65,17 +65,17 @@ class DateContentRow extends React.Component {
     if (row) cell = row.children[slot - 1]
 
     let events = this.segments
-      .filter(seg => isSegmentInSlot(seg, slot))
-      .map(seg => seg.event)
+      .filter((seg) => isSegmentInSlot(seg, slot))
+      .map((seg) => seg.event)
 
     onShowMore(events, range[slot - 1], cell, slot)
   }
 
-  createHeadingRef = r => {
+  createHeadingRef = (r) => {
     this.headingRow = r
   }
 
-  createEventRef = r => {
+  createEventRef = (r) => {
     this.eventRow = r
   }
 
@@ -156,7 +156,7 @@ class DateContentRow extends React.Component {
 
     let { first, last } = endOfRange(range)
 
-    let segments = (this.segments = events.map(evt =>
+    let segments = (this.segments = events.map((evt) =>
       eventSegments(
         evt,
         first,

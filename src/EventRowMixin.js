@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import EventCell from './EventCell'
-import getHeight from 'dom-helpers/query/height'
+import getHeight from 'dom-helpers/height'
 import { accessor, elementType } from './utils/propTypes'
 import { isSelected } from './utils/selection'
 
@@ -74,7 +74,7 @@ export default {
   },
 
   renderSpan(slots, len, key, content = ' ') {
-    let per = Math.abs(len) / slots * 100 + '%'
+    let per = (Math.abs(len) / slots) * 100 + '%'
 
     return (
       <div

@@ -41,7 +41,7 @@ export let formats = {
   agendaTimeRangeFormat: timeRangeFormat,
 }
 
-export default function(moment) {
+export default function (moment) {
   let locale = (m, c) => (c ? m.locale(c) : m)
 
   set(formats)
