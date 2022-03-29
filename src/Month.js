@@ -10,7 +10,7 @@ import chunk from 'lodash/chunk'
 import { navigate, views } from './utils/constants'
 import { notify } from './utils/helpers'
 import getPosition from 'dom-helpers/position'
-import raf from 'dom-helpers/util/requestAnimationFrame'
+import { requestAnimationFrame } from 'dom-helpers'
 
 import Popup from './Popup'
 import Overlay from 'react-overlays/lib/Overlay'
@@ -108,7 +108,7 @@ class MonthView extends React.Component {
       'resize',
       (this._resizeListener = () => {
         if (!running) {
-          raf(() => {
+          requestAnimationFrame(() => {
             running = false
             this.setState({ needLimitMeasure: true }) //eslint-disable-line
           })

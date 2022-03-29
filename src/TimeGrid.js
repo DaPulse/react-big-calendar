@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import cn from 'classnames'
-import raf from 'dom-helpers/util/requestAnimationFrame'
+import { requestAnimationFrame } from 'dom-helpers'
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 
@@ -97,15 +97,17 @@ export default class TimeGrid extends Component {
   }
 
   handleResize = () => {
-    raf.cancel(this.rafHandle)
-    this.rafHandle = raf(this.checkOverflow)
+    requestAnimationFrame.cancel(this.requestAnimationFrameHandler)
+    this.requestAnimationFrameHandler = requestAnimationFrame(
+      this.checkOverflow
+    )
   }
 
   componentWillUnmount() {
     window.clearTimeout(this._timeIndicatorTimeout)
     window.removeEventListener('resize', this.handleResize)
 
-    raf.cancel(this.rafHandle)
+    requestAnimationFrame.cancel(this.requestAnimationFrameHandler)
   }
 
   componentDidUpdate() {

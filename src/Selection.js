@@ -1,12 +1,12 @@
-import contains from 'dom-helpers/contains'
+import { off, on } from 'dom-helpers'
 import closest from 'dom-helpers/closest'
-import events from 'dom-helpers/events'
+import contains from 'dom-helpers/contains'
 
 function addEventListener(type, handler, target = document) {
-  events.on(target, type, handler)
+  on(target, type, handler)
   return {
     remove() {
-      events.off(target, type, handler)
+      off(target, type, handler)
     },
   }
 }
