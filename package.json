@@ -91,7 +91,7 @@
     "webpack-dev-server": "^2.9.5"
   },
   "dependencies": {
-    "@mondaydotcomorg/client-dnd": "0.0.4",
+    "@mondaydotcomorg/client-dnd": "0.0.5",
     "@mondaydotcomorg/ignite-client-sdk": "^1.1.4",
     "classnames": "^2.1.3",
     "date-arithmetic": "^3.0.0",

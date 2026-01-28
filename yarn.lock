@@ -25,10 +25,10 @@
     "@mondaydotcomorg/ignite-client-sdk" "^1.1.4"
     "@mondaydotcomorg/monolith-window" "1.4.3"
 
-"@mondaydotcomorg/client-dnd@0.0.4":
-  "integrity" "sha512-JYFEOsGzyehYkFj/nkwH2w4EePxrbH4P5oGc+OaJjyxsbboQ0FJnixdpSwmRLXTQ2Wn7KTJuREMxWUi47JGsVQ=="
-  "resolved" "https://registry.npmjs.org/@mondaydotcomorg/client-dnd/-/client-dnd-0.0.4.tgz"
-  "version" "0.0.4"
+"@mondaydotcomorg/client-dnd@0.0.5":
+  "integrity" "sha512-uCSiWqQ26nXIC24J3t2O+9of3u17MFxuOeMUaxdBUE9L+R7SyQ54WhanPvo92+uGGh8ItIiSBIOuUQu52mnk3w=="
+  "resolved" "https://registry.npmjs.org/@mondaydotcomorg/client-dnd/-/client-dnd-0.0.5.tgz"
+  "version" "0.0.5"
   dependencies:
     "dnd-core" "^14.0.0"
     "react-dnd" "^14.0.2"
