@@ -8,8 +8,9 @@ This implementation fixes the "Cannot have two HTML5 backends at the same time" 
 ### 1. Added Feature Flag Support (`src/utils/features-consts.js`)
 ```javascript
 export const REACT_BIG_CALENDAR_SINGLETON_BACKEND = 'react_big_calendar_singleton_backend';
-export const CALENDAR_DND_14 = 'calendar_dnd_14';
 ```
+
+**Note**: The `calendar_dnd_14` feature flag has been fully released and removed. The code now always uses react-dnd version 14.
 
 ### 2. Created Features Service (`src/utils/features-service.js`)
 ```javascript
@@ -27,36 +28,29 @@ export const canUseReactBigCalendarSingletonBackend = () => {
 
 ### 3. Updated withDragAndDrop.js (`src/addons/dragAndDrop/withDragAndDrop.js`)
 
-**Key Change**: Uses `createSingletonHTML5BackendLegacy` from `@mondaydotcomorg/client-dnd` instead of re-implementing the singleton pattern.
+**Key Change**: Uses `SingletonHTML5Backend` from `@mondaydotcomorg/client-dnd` instead of re-implementing the singleton pattern. Now always uses react-dnd version 14.
 
 ```javascript
-// Check if singleton backend should be used
-let shouldUseSingletonBackend = false;
-try {
-  const { canUseReactBigCalendarSingletonBackend } = require('../../utils/features-service');
-  shouldUseSingletonBackend = canUseReactBigCalendarSingletonBackend();
-} catch (err) {
-  shouldUseSingletonBackend = false;
-}
+import { HTML5Backend } from "react-dnd-html5-backend-14";
+import { DndProvider, useDragDropManager } from "react-dnd-14";
+import { SingletonHTML5Backend } from '@mondaydotcomorg/client-dnd';
+import { canUseReactBigCalendarSingletonBackend } from '../../utils/features-service'
 
-let html5Backend
+let html5Backend;
 
-try {
-  const baseBackend = shouldUseDragDropContext14 ? HTML5Backend : require('react-dnd-html5-backend');
-  
-  if (shouldUseSingletonBackend) {
-    // Use the singleton backend from @mondaydotcomorg/client-dnd
-    const { createSingletonHTML5BackendLegacy } = require('@mondaydotcomorg/client-dnd');
-    html5Backend = createSingletonHTML5BackendLegacy(baseBackend);
-  } else {
-    html5Backend = baseBackend;
+if (canUseReactBigCalendarSingletonBackend()) {
+  html5Backend = SingletonHTML5Backend;
+} else {
+  try {
+    html5Backend = HTML5Backend;
+  } catch (err) {
+    /* optional dep missing */
   }
-} catch (err) {
-  /* optional dep missing */
 }
 ```
 
 #### Key Features:
+- **React-DnD 14**: Now exclusively uses react-dnd version 14 (the `calendar_dnd_14` flag has been fully released)
 - **Reuses Existing Singleton**: Uses the same `@mondaydotcomorg/client-dnd` package that dapulse uses
 - **Consistent Behavior**: Both dapulse and react-big-calendar share the same singleton backend instance
 - **Feature Flag Controlled**: Can be enabled/disabled via `react_big_calendar_singleton_backend` feature flag
@@ -77,12 +71,13 @@ Added dependencies:
    - Falls back gracefully if unavailable
 
 2. **Singleton Backend Usage**:
-   - If enabled, uses `createSingletonHTML5BackendLegacy` from `@mondaydotcomorg/client-dnd`
+   - If enabled, uses `SingletonHTML5Backend` from `@mondaydotcomorg/client-dnd`
    - This is the SAME singleton used in dapulse's calendar component
    - Ensures only one HTML5Backend instance exists globally across all components
+   - Always uses react-dnd version 14
 
 3. **Global State Sharing**:
-   - Both react-big-calendar and dapulse components share `window.__MONDAY_DND_BACKEND_MANAGER_LEGACY__`
+   - Both react-big-calendar and dapulse components share `window.__MONDAY_DND_BACKEND_MANAGER__`
    - Reference counting ensures proper cleanup
    - No conflicts between multiple calendar instances
 
@@ -108,7 +103,7 @@ Added dependencies:
 - Check browser console for any DnD backend errors
 - Multiple calendar instances should share the same backend
 - No "Cannot have two HTML5 backends at the same time" errors should occur
-- Check `window.__MONDAY_DND_BACKEND_MANAGER_LEGACY__` in console to verify shared state
+- Check `window.__MONDAY_DND_BACKEND_MANAGER__` in console to verify shared state
 
 ## Alignment with client-dnd Package
 
@@ -116,7 +111,8 @@ This implementation **directly uses** the `@mondaydotcomorg/client-dnd` package:
 - No duplicate singleton implementation
 - Consistent behavior across all components
 - Centralized maintenance
-- Same global state key: `__MONDAY_DND_BACKEND_MANAGER_LEGACY__`
+- Same global state key: `__MONDAY_DND_BACKEND_MANAGER__`
+- Always uses react-dnd version 14 (legacy version has been fully deprecated)
 
 ## Migration Path
 
@@ -136,6 +132,7 @@ This implementation **directly uses** the `@mondaydotcomorg/client-dnd` package:
 
 - The implementation is backward compatible
 - No breaking changes to the API
-- Works with both legacy react-dnd (2.x) and modern react-dnd (14.x)
+- **Now exclusively uses react-dnd 14.x** (the `calendar_dnd_14` feature flag has been fully released and removed)
+- Legacy react-dnd (2.x) support has been removed
 - Babel-compatible (no optional chaining or modern syntax)
 - Uses the SAME singleton pattern as dapulse's calendar-view-content-component.jsx

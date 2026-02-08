@@ -1,24 +1,21 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { DragDropContext } from 'react-dnd'
-import HTML5BackendLegacy from "react-dnd-html5-backend";
 import { HTML5Backend } from "react-dnd-html5-backend-14";
 import { DndProvider, useDragDropManager } from "react-dnd-14";
 import cn from 'classnames'
 import { accessor } from '../../utils/propTypes'
 import DraggableEventWrapper from './DraggableEventWrapper'
 import { DroppableDayWrapper, DroppableDateCellWrapper } from './DropWrappers'
-import { createSingletonHTML5BackendLegacy, SingletonHTML5Backend } from '@mondaydotcomorg/client-dnd';
+import { SingletonHTML5Backend } from '@mondaydotcomorg/client-dnd';
 import { canUseReactBigCalendarSingletonBackend } from '../../utils/features-service'
-const shouldUseDragDropContext14 = window.Pulse.features.calendar_dnd_14;
+
 let html5Backend;
 
 if (canUseReactBigCalendarSingletonBackend()) {
-  const html5BackendLegacy = createSingletonHTML5BackendLegacy(HTML5BackendLegacy);
-   html5Backend = shouldUseDragDropContext14 ? SingletonHTML5Backend : html5BackendLegacy;
+  html5Backend = SingletonHTML5Backend;
 } else {
   try {
-    html5Backend = shouldUseDragDropContext14 ? HTML5Backend : require('react-dnd-html5-backend');
+    html5Backend = HTML5Backend;
   } catch (err) {
     /* optional dep missing */
   }
@@ -81,7 +78,7 @@ export default function withDragAndDrop(
       resizable: PropTypes.bool,
       components: PropTypes.object,
       step: PropTypes.number,
-      dragDropManager: shouldUseDragDropContext14 ? PropTypes.object : undefined,
+      dragDropManager: PropTypes.object,
     }
 
     static defaultProps = {
@@ -95,9 +92,6 @@ export default function withDragAndDrop(
       step: 30,
     }
 
-    static contextTypes = {
-      dragDropManager: PropTypes.object,
-    }
 
     static childContextTypes = {
       onEventDrop: PropTypes.func,
@@ -129,14 +123,7 @@ export default function withDragAndDrop(
     }
 
     componentWillMount() {
-      if (!shouldUseDragDropContext14) {
-        let monitor = this.context.dragDropManager.getMonitor()
-        this.monitor = monitor
-      }
-      else 
-      {
-        this.monitor = this.props.dragDropManager.getMonitor()
-      }
+      this.monitor = this.props.dragDropManager.getMonitor()
       this.unsubscribeToStateChange = this.monitor.subscribeToStateChange(
         this.handleStateChange
       )
@@ -183,10 +170,6 @@ export default function withDragAndDrop(
   if (backend === false) {
     return DragAndDropCalendar
   } else {
-    if (!shouldUseDragDropContext14) {
-      return DragDropContext(backend)(DragAndDropCalendar)
-    }
-
     return withDragDrop(DragAndDropCalendar, backend);
   }
 }
