@@ -1,3 +1,9 @@
+v0.35.0 - Fri, 16 May 2026
+---------------------------------------
+
+- Remove `calendar_dnd_14` feature flag — DnD14 behavior is now always-on
+
+
 v0.34.0 - Wed, 28 Oct 2026 13:19:18 GMT
 ---------------------------------------
 
